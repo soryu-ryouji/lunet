@@ -106,33 +106,30 @@ public struct BinaryReader(byte[] data)
             throw new Exception("format mismatch!");
         }
 
-        if (ConvertUtil.Bytes2String(ReadBytes(6)) != BinaryChunk.LUAC_DATA)
+        var luacData = ReadBytes(6);
+        if (luacData[0] != 0x19 || luacData[1] != 0x93 || luacData[2] != 0x0D ||
+            luacData[3] != 0x0A || luacData[4] != 0x1A || luacData[5] != 0x0A)
         {
             throw new Exception("corrupted!");
         }
 
-        if (ReadByte() != BinaryChunk.CINT_SIZE)
-        {
-            throw new Exception("int size mismatch!");
-        }
-
-        var b = ReadByte();
-        if (b != BinaryChunk.CSIZET_SIZE_32 && b != BinaryChunk.CSIZET_SIZE_64)
-        {
-            throw new Exception("size_t size mismatch!");
-        }
-
-        if (ReadByte() != BinaryChunk.INSTRUCTION_SIZE)
+        var bit = ReadByte();
+        var instruction = Convert.ToUInt32(bit);
+        if (instruction != BinaryChunk.INSTRUCTION_SIZE)
         {
             throw new Exception("instruction size mismatch!");
         }
 
-        if (ReadByte() != BinaryChunk.LUA_INTEGER_SIZE)
+        var integerBit = ReadByte();
+        var integer = Convert.ToUInt32(integerBit);
+        if (integer != BinaryChunk.LUA_INTEGER_SIZE)
         {
             throw new Exception("lua_Integer size mismatch!");
         }
 
-        if (ReadByte() != BinaryChunk.LUA_NUMBER_SIZE)
+        var numBit = ReadByte();
+        var num = Convert.ToUInt32(numBit);
+        if (num != BinaryChunk.LUA_NUMBER_SIZE)
         {
             throw new Exception("lua_Number size mismatch!");
         }

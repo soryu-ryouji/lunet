@@ -33,12 +33,9 @@ public class Prototype
 internal static class BinaryChunk
 {
     public const string LUA_SIGNATURE = "\x1bLua";
-    public const byte LUAC_VERSION = 0x53;
+    public const byte LUAC_VERSION = 0x54;
     public const byte LUAC_FORMAT = 0;
     public const string LUAC_DATA = "\x19\x93\r\n\x1a\n";
-    public const uint CINT_SIZE = 4;
-    public const uint CSIZET_SIZE_32 = 4;
-    public const uint CSIZET_SIZE_64 = 8;
     public const uint INSTRUCTION_SIZE = 4;
     public const uint LUA_INTEGER_SIZE = 8;
     public const uint LUA_NUMBER_SIZE = 8;
