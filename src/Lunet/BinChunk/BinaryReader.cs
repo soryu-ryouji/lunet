@@ -63,6 +63,7 @@ public struct BinaryReader(byte[] data)
     public string ReadString()
     {
         var size = (uint)ReadByte();
+
         if (size == 0)
         {
             return "";
@@ -73,7 +74,7 @@ public struct BinaryReader(byte[] data)
             size = (uint)ReadUint64();
         }
 
-        var bytes = ReadBytes(size - 1);
+        var bytes = ReadBytes(size);
         return ConvertUtil.Bytes2String(bytes);
     }
 
