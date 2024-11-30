@@ -1,4 +1,5 @@
-﻿using BinaryReader = Lunet.BinChunk.BinaryReader;
+﻿using Xunit.Abstractions;
+using BinaryReader = Lunet.BinChunk.BinaryReader;
 
 namespace Lunet.Test;
 
@@ -58,5 +59,22 @@ public class BinaryChunkTest
         var data = new byte[] { 0x00, 0x00, 0x00, 0x00 };
         var reader = new BinaryReader(data);
         Assert.Throws<Exception>(() => reader.CheckHeader());
+    }
+
+    [Fact]
+    public void CheckHeader_Test()
+    {
+        // lua binary chunk directory
+        var path = "../../../lua/luac.out";
+
+        if (!File.Exists(path))
+        {
+            throw new Exception("Lua Binary Chunk not found: " + path);
+        }
+
+        var data = File.ReadAllBytes("../../../lua/luac.out");
+        var reader = new BinaryReader(data);
+        reader.CheckHeader();
+        Assert.True(true);
     }
 }
