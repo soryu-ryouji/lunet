@@ -1,7 +1,17 @@
 namespace Lunet.Number;
 
-public static class Math
+public static class LuaMath
 {
+    internal static long IFloorDiv(long a, long b)
+    {
+        if (a > 0 && b > 0 || a < 0 && b < 0 || a % b == 0)
+        {
+            return a / b;
+        }
+
+        return a / b - 1;
+    }
+
     internal static long FloorDiv(long a, long b)
     {
         if (a > 0 && b > 0 || a < 0 && b < 0 || a % b == 0)
@@ -14,7 +24,12 @@ public static class Math
 
     internal static double FFloorDiv(double a, double b)
     {
-        return System.Math.Floor(a / b);
+        return Math.Floor(a / b);
+    }
+
+    internal static long IMod(long a, long b)
+    {
+        return a - IFloorDiv(a, b) * b;
     }
 
     internal static long Mod(long a, long b)
@@ -24,7 +39,7 @@ public static class Math
 
     internal static double FMod(double a, double b)
     {
-        return a - System.Math.Floor(a / b) * b;
+        return a - Math.Floor(a / b) * b;
     }
 
     internal static long ShiftLeft(long a, long n)
@@ -47,9 +62,9 @@ public static class Math
         return ShiftLeft(a, -n);
     }
 
-    internal static (long, bool) FloatToInteger(double f)
+    internal static Tuple<long, bool> FloatToInteger(double f)
     {
         var i = (long)f;
-        return (i, System.Math.Abs(i - f) <= 0);
+        return Tuple.Create(i, Math.Abs(i - f) <= 0);
     }
 }

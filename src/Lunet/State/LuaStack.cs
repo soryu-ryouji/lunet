@@ -52,6 +52,13 @@ public class LuaStack
         return vals;
     }
 
+
+    internal bool IsValid(int idx)
+    {
+        var absIdx = AbsIndex(idx);
+        return absIdx > 0 && absIdx <= Top;
+    }
+
     internal object Get(int idx)
     {
         throw new System.NotImplementedException();

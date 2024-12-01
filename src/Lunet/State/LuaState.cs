@@ -2,9 +2,15 @@ using Lunet.API;
 
 namespace Lunet.State;
 
-public partial class LuaState : ILuaState
+public partial struct LuaState : ILuaState
 {
     private LuaStack mStack = new();
+
+    public LuaState()
+    {
+    }
+
+    public int LuaType { get; set; }
 
     public int GetTop()
     {
