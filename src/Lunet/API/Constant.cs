@@ -1,3 +1,5 @@
+using Lunet.VM;
+
 namespace Lunet.API;
 
 public static class Constant
@@ -108,4 +110,55 @@ public static class Constant
     internal const byte OP_CLOSURE = 44;
     internal const byte OP_VARARG = 45;
     internal const byte OP_EXTRAARG = 46;
+
+    internal static readonly OpCode[] OpCodes =
+    [
+        new(0, 1, OpArgR, OpArgN, IABC, "MOVE    "), // R(A) := R(B)
+        new(0, 1, OpArgK, OpArgN, IABx, "LOADK   "), // R(A) := Kst(Bx)
+        new(0, 1, OpArgN, OpArgN, IABx, "LOADKX  "), // R(A) := Kst(extra arg)
+        new(0, 1, OpArgU, OpArgU, IABC, "LOADBOOL"), // R(A) := (bool)B; if (C) pc++
+        new(0, 1, OpArgU, OpArgN, IABC, "LOADNIL "), // R(A), R(A+1), ..., R(A+B) := nil
+        new(0, 1, OpArgU, OpArgN, IABC, "GETUPVAL"), // R(A) := UpValue[B]
+        new(0, 1, OpArgU, OpArgK, IABC, "GETTABUP"), // R(A) := UpValue[B][RK(C)]
+        new(0, 1, OpArgR, OpArgK, IABC, "GETTABLE"), // R(A) := R(B)[RK(C)]
+        new(0, 0, OpArgK, OpArgK, IABC, "SETTABUP"), // UpValue[A][RK(B)] := RK(C)
+        new(0, 0, OpArgU, OpArgN, IABC, "SETUPVAL"), // UpValue[B] := R(A)
+        new(0, 0, OpArgK, OpArgK, IABC, "SETTABLE"), // R(A)[RK(B)] := RK(C)
+        new(0, 1, OpArgU, OpArgU, IABC, "NEWTABLE"), // R(A) := {} (size = B,C)
+        new(0, 1, OpArgR, OpArgK, IABC, "SELF    "), // R(A+1) := R(B); R(A) := R(B)[RK(C)]
+        new(0, 1, OpArgK, OpArgK, IABC, "ADD     "), // R(A) := RK(B) + RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "SUB     "), // R(A) := RK(B) - RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "MUL     "), // R(A) := RK(B) * RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "MOD     "), // R(A) := RK(B) % RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "POW     "), // R(A) := RK(B) ^ RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "DIV     "), // R(A) := RK(B) / RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "IDIV    "), // R(A) := RK(B) // RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "BAND    "), // R(A) := RK(B) & RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "BOR     "), // R(A) := RK(B) | RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "BXOR    "), // R(A) := RK(B) ~ RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "SHL     "), // R(A) := RK(B) << RK(C)
+        new(0, 1, OpArgK, OpArgK, IABC, "SHR     "), // R(A) := RK(B) >> RK(C)
+        new(0, 1, OpArgR, OpArgN, IABC, "UNM     "), // R(A) := -R(B)
+        new(0, 1, OpArgR, OpArgN, IABC, "BNOT    "), // R(A) := ~R(B)
+        new(0, 1, OpArgR, OpArgN, IABC, "NOT     "), // R(A) := not R(B)
+        new(0, 1, OpArgR, OpArgN, IABC, "LEN     "), // R(A) := length of R(B)
+        new(0, 1, OpArgR, OpArgR, IABC, "CONCAT  "), // R(A) := R(B).. ... ..R(C)
+        new(0, 0, OpArgR, OpArgN, IAsBx, "JMP     "),
+        new(1, 0, OpArgK, OpArgK, IABC, "EQ      "),
+        new(1, 0, OpArgK, OpArgK, IABC, "LT      "),
+        new(1, 0, OpArgK, OpArgK, IABC, "LE      "),
+        new(1, 0, OpArgN, OpArgU, IABC, "TEST    "),
+        new(1, 1, OpArgR, OpArgU, IABC, "TESTSET "),
+        new(0, 1, OpArgU, OpArgU, IABC, "CALL    "),
+        new(0, 1, OpArgU, OpArgU, IABC, "TAILCALL"), // return R(A)(R(A+1), ... ,R(A+B-1))
+        new(0, 0, OpArgU, OpArgN, IABC, "RETURN  "), // return R(A), ... ,R(A+B-2)
+        new(0, 1, OpArgR, OpArgN, IAsBx, "FORLOOP "),
+        new(0, 1, OpArgR, OpArgN, IAsBx, "FORPREP "), // R(A)-=R(A+2); pc+=sBx
+        new(0, 0, OpArgN, OpArgU, IABC, "TFORCALL"),
+        new(0, 1, OpArgR, OpArgN, IAsBx, "TFORLOOP"),
+        new(0, 0, OpArgU, OpArgU, IABC, "SETLIST "),
+        new(0, 1, OpArgU, OpArgN, IABx, "CLOSURE "),
+        new(0, 1, OpArgU, OpArgN, IABC, "VARARG  "),
+        new(0, 0, OpArgU, OpArgU, IAx, "EXTRAARG")
+    ];
 }
